@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>October - wake on lan</title>
+    <style>
+        table {
+            color: #333;
+            background: white;
+            border: 1px solid grey;
+            font-size: 12pt;
+            border-collapse: collapse;
+        }
+
+        table thead th,
+        table tfoot th {
+            color: #555;
+            background: rgba(0, 0, 0, .1);
+        }
+
+        table th,
+        table td {
+            padding: .5em;
+            border: 1px solid lightgrey;
+        }
+
+        /* Zebra Table Style */
+        [data-table-theme*=zebra] tbody tr:nth-of-type(odd) {
+            background: rgba(0, 0, 0, .05);
+        }
+
+        [data-table-theme*=zebra][data-table-theme*=dark] tbody tr:nth-of-type(odd) {
+            background: rgba(255, 255, 255, .05);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>October</h1>
+    <p>Wake-on-lan webapp - 🎵 Wake me up, when september ends 🎵</p>
+
+    {{#if this}}
+    <table>
+        <thead>
+            <tr>
+                <th>Host</th>
+                <th>MAC</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each this}}
+            <tr>
+                <td>{{this.name}}</td>
+                <td>{{this.mac}}</td>
+                <td>
+                    <form method="POST" action="/awake">
+                        <input type="hidden" name="mac" value="{{this.mac}}" />
+                        <button type="submit">AWAKE!</button>
+                    </form>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    {{else}}
+    <p>No registered addressess.</p>
+    <p>Restart the service setting the <code>--address</code> for quick access or use the
+        <code>POST /awake?mac="DD:AA:FF:CC"</code> endpoint
+        directly.
+    </p>
+    {{/if}}
+
+</body>
